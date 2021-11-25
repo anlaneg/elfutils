@@ -36,7 +36,7 @@
 
 #include "libelfP.h"
 
-
+/*将section信息填充到dst中*/
 GElf_Shdr *
 gelf_getshdr (Elf_Scn *scn, GElf_Shdr *dst)
 {

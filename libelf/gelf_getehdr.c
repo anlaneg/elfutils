@@ -50,6 +50,7 @@ __gelf_getehdr_rdlock (Elf *elf, GElf_Ehdr *dest)
 
   if (unlikely (elf->kind != ELF_K_ELF))
     {
+      /*非elf文件时报错*/
       __libelf_seterrno (ELF_E_INVALID_HANDLE);
       return NULL;
     }

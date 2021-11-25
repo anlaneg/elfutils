@@ -468,6 +468,7 @@ __elf_getdata_rdlock (Elf_Scn *scn, Elf_Data *data)
 
   if (unlikely (scn->elf->kind != ELF_K_ELF))
     {
+      /*必须为elf文件*/
       __libelf_seterrno (ELF_E_INVALID_HANDLE);
       return NULL;
     }
@@ -552,6 +553,7 @@ __elf_getdata_rdlock (Elf_Scn *scn, Elf_Data *data)
   return result;
 }
 
+/*取此section段信息*/
 Elf_Data *
 elf_getdata (Elf_Scn *scn, Elf_Data *data)
 {

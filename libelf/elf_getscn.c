@@ -37,7 +37,7 @@
 
 #include "libelfP.h"
 
-
+/*取指定索引的section信息*/
 Elf_Scn *
 elf_getscn (Elf *elf, size_t idx)
 {
