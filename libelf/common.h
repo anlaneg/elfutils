@@ -44,7 +44,7 @@ determine_kind (void *buf, size_t len)
 {
   /* First test for an archive.  */
   if (len >= SARMAG && memcmp (buf, ARMAG, SARMAG) == 0)
-    return ELF_K_AR;
+    return ELF_K_AR;/*ar类型文件*/
 
   /* Next try ELF files.  */
   if (len >= EI_NIDENT && memcmp (buf, ELFMAG, SELFMAG) == 0)
@@ -57,7 +57,7 @@ determine_kind (void *buf, size_t len)
       if (eclass > ELFCLASSNONE && eclass < ELFCLASSNUM
 	  && data > ELFDATANONE && data < ELFDATANUM
 	  && version == EV_CURRENT)
-	return ELF_K_ELF;
+	return ELF_K_ELF;/*elf类型文件*/
     }
 
   /* We do not know this file type.  */
@@ -68,9 +68,10 @@ determine_kind (void *buf, size_t len)
 /* Allocate an Elf descriptor and fill in the generic information.  */
 static inline Elf *
 __attribute__ ((unused))
-allocate_elf (int fildes, void *map_address, int64_t offset, size_t maxsize,
-              Elf_Cmd cmd, Elf *parent, Elf_Kind kind, size_t extra)
+allocate_elf (int fildes, void *map_address, int64_t offset/*开始的offset*/, size_t maxsize,
+              Elf_Cmd cmd, Elf *parent, Elf_Kind kind/*elf文件类型*/, size_t extra)
 {
+	/*申请一个elf结构体，并一个extra长度*/
   Elf *result = (Elf *) calloc (1, sizeof (Elf) + extra);
   if (result == NULL)
     __libelf_seterrno (ELF_E_NOMEM);

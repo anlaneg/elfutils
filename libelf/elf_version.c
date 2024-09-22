@@ -49,7 +49,7 @@ elf_version (unsigned int version)
       /* Phew, we know this version.  */
 
       /* Signal that the version is now initialized.  */
-      __libelf_version = EV_CURRENT;
+      __libelf_version = EV_CURRENT;/*指定elf版本*/
 
       /* And return the last (or initial) version.  */
       return EV_CURRENT;

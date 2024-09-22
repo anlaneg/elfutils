@@ -52,6 +52,7 @@ elf_getshdrstrndx (Elf *elf, size_t *dst)
 
   if (unlikely (elf->kind != ELF_K_ELF))
     {
+	  /*只处理elf类型文件*/
       __libelf_seterrno (ELF_E_INVALID_HANDLE);
       return -1;
     }
@@ -71,6 +72,7 @@ elf_getshdrstrndx (Elf *elf, size_t *dst)
 
   if (unlikely (elf->state.elf.ehdr == NULL))
     {
+	  /*必须已解析elf header*/
       __libelf_seterrno (ELF_E_WRONG_ORDER_EHDR);
       result = -1;
     }

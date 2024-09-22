@@ -38,10 +38,11 @@
 
 
 Elf *
-elf_memory (char *image, size_t size)
+elf_memory (char *image/*obj内容*/, size_t size/*obj内容长度*/)
 {
   if (image == NULL)
     {
+	  /*image为空，报错*/
       __libelf_seterrno (ELF_E_INVALID_OPERAND);
       return NULL;
     }

@@ -544,7 +544,7 @@ __libelf_read_mmaped_file (int fildes, void *map_address,  int64_t offset,
   unsigned char *e_ident = (unsigned char *) map_address + offset;
 
   /* See what kind of object we have here.  */
-  Elf_Kind kind = determine_kind (e_ident, maxsize);
+  Elf_Kind kind = determine_kind (e_ident, maxsize);/*检查elf文件类型*/
 
   switch (kind)
     {
@@ -562,7 +562,7 @@ __libelf_read_mmaped_file (int fildes, void *map_address,  int64_t offset,
   /* This case is easy.  Since we cannot do anything with this file
      create a dummy descriptor.  */
   return allocate_elf (fildes, map_address, offset, maxsize, cmd, parent,
-		       ELF_K_NONE, 0);
+		       ELF_K_NONE, 0);/*创建一个none类型的elf*/
 }
 
 
@@ -1088,7 +1088,7 @@ write_file (int fd, Elf_Cmd cmd)
       result->state.elf32.scns.max = NSCNSALLOC;
     }
 
-  return result;
+  return result;/*返回构造好的result*/
 }
 
 /* Lock if necessary before dup an archive.  */
@@ -1107,12 +1107,13 @@ lock_dup_elf (int fildes, Elf_Cmd cmd, Elf *ref)
 
 /* Return a descriptor for the file belonging to FILDES.  */
 Elf *
-elf_begin (int fildes, Elf_Cmd cmd, Elf *ref)
+elf_begin (int fildes/*文件fd*/, Elf_Cmd cmd, Elf *ref)
 {
   Elf *retval;
 
   if (unlikely (__libelf_version != EV_CURRENT))
     {
+	  /*未设置__libelf_version,报错*/
       /* Version wasn't set so far.  */
       __libelf_seterrno (ELF_E_NO_VERSION);
       return NULL;
@@ -1123,6 +1124,7 @@ elf_begin (int fildes, Elf_Cmd cmd, Elf *ref)
     rwlock_rdlock (ref->lock);
   else if (unlikely (fcntl (fildes, F_GETFD) == -1 && errno == EBADF))
     {
+	  /*此fd是无效的，报错*/
       /* We cannot do anything productive without a file descriptor.  */
       __libelf_seterrno (ELF_E_INVALID_FILE);
       return NULL;
@@ -1132,7 +1134,7 @@ elf_begin (int fildes, Elf_Cmd cmd, Elf *ref)
     {
     case ELF_C_NULL:
       /* We simply return a NULL pointer.  */
-      retval = NULL;
+      retval = NULL;/*什么也不干*/
       break;
 
     case ELF_C_READ_MMAP_PRIVATE:
@@ -1178,6 +1180,7 @@ elf_begin (int fildes, Elf_Cmd cmd, Elf *ref)
 
     case ELF_C_WRITE:
     case ELF_C_WRITE_MMAP:
+    	/*指明为只写操作*/
       /* We ignore REF and prepare a descriptor to write a new file.  */
       retval = write_file (fildes, cmd);
       break;
